@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-THRESHOLD=1
+THRESHOLD=2
 USAGE=$(free | awk '/Mem:/ {printf "%.0f", $3/$2 * 100}')
 
 echo "DEBUG: Memory=$USAGE Threshold=$THRESHOLD"

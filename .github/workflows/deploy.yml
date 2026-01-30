@@ -32,5 +32,11 @@ jobs:
           sudo mkdir -p /usr/share/nginx/html
           sudo rm -rf /usr/share/nginx/html/*
           sudo cp -r /home/ec2-user/app/* /usr/share/nginx/html/
+          # Move index.html to root and clean up
+          if [ -f /usr/share/nginx/html/app/index.html ]; then
+            sudo mv /usr/share/nginx/html/app/index.html /usr/share/nginx/html/
+            sudo rm -rf /usr/share/nginx/html/app
+            sudo chown nginx:nginx /usr/share/nginx/html/index.html
+            sudo chmod 644 /usr/share/nginx/html/index.html
+          fi
           sudo systemctl restart nginx
-

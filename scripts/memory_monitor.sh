@@ -1,6 +1,6 @@
 #!/bin/bash
 
-THRESHOLD=80
+THRESHOLD=1
 USAGE=$(free | awk '/Mem:/ {printf("%.0f"), $3/$2 * 100}')
 
 if [ "$USAGE" -gt "$THRESHOLD" ]; then

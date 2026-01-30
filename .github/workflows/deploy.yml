@@ -1,1 +1,36 @@
+name: Deploy App to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Copy app files to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: "app/*"
+        target: "/home/ec2-user/app"
+
+    - name: Deploy to Nginx
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_IP }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          sudo mkdir -p /usr/share/nginx/html
+          sudo rm -rf /usr/share/nginx/html/*
+          sudo cp -r /home/ec2-user/app/* /usr/share/nginx/html/
+          sudo systemctl restart nginx
 

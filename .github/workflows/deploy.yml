@@ -1,4 +1,4 @@
-name: Deploy App to EC2 server
+name: Deploy App to EC2 servers
 
 on:
   push:
